@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const Problem2 = () => {
@@ -17,8 +16,6 @@ const Problem2 = () => {
       .then((res) => res.json())
       .then((data) => setCountries(data.results));
   }, []);
-
-  console.log(countries);
 
   return (
     <div className="container">
@@ -49,11 +46,9 @@ const Problem2 = () => {
             <Modal.Title>All Contacts</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {countries
-              // .filter((country) => country.country.id === 2)
-              .map((country) => (
-                <p key={country.id}>{country.phone}</p>
-              ))}
+            {countries.map((country) => (
+              <p key={country.id}>{country.phone}</p>
+            ))}
           </Modal.Body>
           <Modal.Footer className="d-flex align-items-center">
             <input type="checkbox" />
