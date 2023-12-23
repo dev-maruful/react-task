@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 const Problem2 = () => {
   const [showAllContact, setShowAllContact] = useState(false);
   const [showUSContact, setShowUSContact] = useState(false);
+  const [countries, setCountries] = useState([]);
 
   const handleCloseAllContact = () => setShowAllContact(false);
   const handleShowAllContact = () => setShowAllContact(true);
@@ -12,10 +13,12 @@ const Problem2 = () => {
   const handleShowUSContact = () => setShowUSContact(true);
 
   useEffect(() => {
-    fetch("https://contact.mediusware.com/api/contacts")
+    fetch("https://contact.mediusware.com/api/contacts/?format=json")
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setCountries(data.results));
   }, []);
+
+  console.log(countries);
 
   return (
     <div className="container">
@@ -45,7 +48,13 @@ const Problem2 = () => {
           <Modal.Header closeButton>
             <Modal.Title>All Contacts</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are reading All contacts!</Modal.Body>
+          <Modal.Body>
+            {countries
+              // .filter((country) => country.country.id === 2)
+              .map((country) => (
+                <p key={country.id}>{country.phone}</p>
+              ))}
+          </Modal.Body>
           <Modal.Footer className="d-flex align-items-center">
             <input type="checkbox" />
             <p>Only even</p>
@@ -57,11 +66,16 @@ const Problem2 = () => {
           <Modal.Header closeButton>
             <Modal.Title>US Contacts</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are reading US contacts</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseUSContact}>
-              Close
-            </Button>
+          <Modal.Body>
+            {countries
+              .filter((country) => country.country.id === 2)
+              .map((country) => (
+                <p key={country.id}>{country.phone}</p>
+              ))}
+          </Modal.Body>
+          <Modal.Footer className="d-flex align-items-center">
+            <input type="checkbox" />
+            <p>Only even</p>
           </Modal.Footer>
         </Modal>
       </>
